@@ -83,8 +83,12 @@ WSGI_APPLICATION = 'Instagram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'Instagram', 
+        'USER': 'postgres', 
+        'PASSWORD': '1234',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
     }
 }
 
@@ -144,7 +148,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'superbecommerce0@gmail.com'
-EMAIL_HOST_PASSWORD = "jaalxpqeewguzkms"
+EMAIL_HOST_PASSWORD = "nehmchlkbafphvly"
 
 
 
