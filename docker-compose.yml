@@ -1,0 +1,53 @@
+version: "3"
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - rabbitmq
+      - celery
+    networks:
+      - emin
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: emin
+      POSTGRES_DB: instagram
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - emin
+  rabbitmq:
+    image: rabbitmq:3.8.14-management
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - emin  
+  celery:
+    build: .
+    command: celery -A Instagram worker -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - rabbitmq
+    env_file:
+      - .env
+    networks:
+      - emin
+
+networks:
+  emin:
+
+volumes:
+  postgres_data:

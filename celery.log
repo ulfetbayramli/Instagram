@@ -1,0 +1,22 @@
+[2023-04-14 17:21:09,281: INFO/MainProcess] Connected to amqp://guest:**@127.0.0.1:5672//
+[2023-04-14 17:21:09,290: INFO/MainProcess] mingle: searching for neighbors
+[2023-04-14 17:21:09,790: INFO/SpawnPoolWorker-2] child process 2500 calling self.run()
+[2023-04-14 17:21:09,797: INFO/SpawnPoolWorker-1] child process 21772 calling self.run()
+[2023-04-14 17:21:09,810: INFO/SpawnPoolWorker-5] child process 26428 calling self.run()
+[2023-04-14 17:21:09,814: INFO/SpawnPoolWorker-6] child process 19824 calling self.run()
+[2023-04-14 17:21:09,842: INFO/SpawnPoolWorker-4] child process 16600 calling self.run()
+[2023-04-14 17:21:09,889: INFO/SpawnPoolWorker-3] child process 2308 calling self.run()
+[2023-04-14 17:21:10,343: INFO/MainProcess] mingle: all alone
+[2023-04-14 17:21:10,369: WARNING/MainProcess] C:\Users\Ulfet\Desktop\instagram\venv\Lib\site-packages\kombu\pidbox.py:70: UserWarning: A node named celery@DESKTOP-BM66D4S is already using this process mailbox!
+
+Maybe you forgot to shutdown the other node or did not do so properly?
+Or if you meant to start multiple nodes on the same host please make sure
+you give each node a unique node name!
+
+  warnings.warn(W_PIDBOX_IN_USE.format(node=self))
+
+[2023-04-14 17:21:10,372: WARNING/MainProcess] C:\Users\Ulfet\Desktop\instagram\venv\Lib\site-packages\celery\fixups\django.py:203: UserWarning: Using settings.DEBUG leads to a memory
+            leak, never use this setting in production environments!
+  warnings.warn('''Using settings.DEBUG leads to a memory
+
+[2023-04-14 17:21:10,372: INFO/MainProcess] celery@DESKTOP-BM66D4S ready.

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>  
+/* Apply some basic styles to the page */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+/* Style the navigation bar */
+.navbar ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navbar ul li {
+  margin-left: 20px;
+}
+
+.ht-setting-wrapper a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Style the main content */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Style the form container */
+form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Style the form fields */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  height: 100px;
+}
+
+/* Style the submit button */
+button[type="submit"] {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+/* Style the table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Style the table header */
+.table thead th {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid blue;
+  text-align: left;
+  padding: 8px;
+}
+
+/* Style the table body rows */
+.table tbody tr {
+  border-bottom: 1px solid #ccc;
+}
+
+/* Style the table body cells */
+.table td {
+  padding: 8px;
+  text-align: left;
+}
+
+/* Add hover effect to table rows */
+.table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Style the message when no Instagram accounts are added */
+main p {
+  font-style: italic;
+  color: #999;
+}
+
+        </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+            <ul>
+                <li><div class="ht-setting-wrapper"><a href="{% url 'logout' %}">Logout</a></div></li>
+                <li></li>
+              </ul>
+
+            </div>
+          </header>
+          
+  <main>
+    <form method="POST">
+        <h2>Add New Account</h2>
+        <br>
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+
+      <br>
+        <h1>My Instagram Accounts</h1>
+      <br>
+
+      {% if instagrams %}
+        <table class="table">
+          <thead style="border: 2px solid blue;">
+            <tr>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Followers</th>
+              <th>Following</th>  
+            </tr>
+          </thead>
+          <tbody>
+            {% for instagram in instagrams %}
+              <tr>
+                <td>{{ instagram.username }}</td>
+                <td>{{ instagram.password }}</td>
+                <td>{{ instagram.followers }}</td>
+                <td>{{ instagram.following }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No Instagram accounts added yet.</p>
+      {% endif %}
+
+  <hr>
+
+    </main>
+        
+</body>
+</html>
