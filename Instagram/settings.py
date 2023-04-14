@@ -85,16 +85,34 @@ WSGI_APPLICATION = 'Instagram.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+import dj_database_url
+
+# DATABASE_URL = "postgresql://postgres:CUAwRA6TpOUSRRtMPvcC@containers-us-west-41.railway.app:7018/railway"
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Instagram', 
-        'USER': 'postgres', 
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1', 
-        'PORT': '5432',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'CUAwRA6TpOUSRRtMPvcC',
+        'HOST': 'containers-us-west-41.railway.app',
+        'PORT': '7018',
     }
 }
+
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'Instagram', 
+#         'USER': 'postgres', 
+#         'PASSWORD': '1234',
+#         'HOST': '127.0.0.1', 
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
