@@ -24,11 +24,12 @@ def send_confirmation_mail(user):
     message.send()
 
 
-from celery import shared_task
+# from celery import shared_task
 
-@shared_task()
-def add(x,y):
-    return x+y
+# @shared_task()
+# def add():
+#     print("88888888888888888888888")
+#     return 5+6
 
 
 
@@ -44,7 +45,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium.webdriver.chrome.options import Options
-
+from webdriver_manager.chrome import ChromeDriverManager
 @shared_task
 def update_instagram_stats():
     # retrieve all Instagram objects
@@ -54,42 +55,41 @@ def update_instagram_stats():
     # iterate through Instagram objects and update stats
     for instagram in instagrams:
         # log in to the account using Selenium
-        print("111111111111111111111111111")
-        url = "https://www.instagram.com/accounts/login/" 
-        option = Options() #newly added 
-        option.headless = True #newly added 
-        option.add_argument("window-size=1600x900")
-        print("22222222222222222222222222")
-        driver = webdriver.Chrome(options=option)
-        driver.get(url)
+        url = "https://www.instagram.com/accounts/login/"
+        option = Options()
+        option.headless = True
+        option.add_argument("--no-sandbox")
+        option.add_argument("--disable-dev-shm-usage")
+        print("hhhhhhhhhhhhhhhhhhhhhhh")
+        driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=option)
+        print("11111111111111111111111")
+        try:
+            driver.get(url)
+            time.sleep(2)
+            username = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'username')))
+            username.send_keys(instagram.username)
+            time.sleep(2)
+            password = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'password')))
+            password.send_keys(instagram.password)
+            time.sleep(3)
+            loginbutton = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button')))
+            loginbutton.click()
+            time.sleep(20)
 
-        print("333333333333333333333333333333333333333333333")
-        time.sleep(2)
-        username = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'username')))
-        username.send_keys(instagram.username)
-        time.sleep(2)
-        password = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'password')))
-        password.send_keys(instagram.password)
-        time.sleep(3)
-        loginbutton = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button')))
-        loginbutton.click()
-        print("444444444444444444444444444444444444444444444444444")
-        time.sleep(20)
+            driver.get('https://www.instagram.com/' + instagram.username)
+            time.sleep(10)
+            follower_count = driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/followers/"] span').get_attribute('title')
+            following_count= driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/following/"] span').text
 
-        driver.get('https://www.instagram.com/' + instagram.username)
-        time.sleep(10)
-        print("5555555555555555555555555555")
-        follower_count = driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/followers/"] span').get_attribute('title')
-        following_count= driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/following/"] span').text
+            print(follower_count)
+            print(following_count)
 
-        print(follower_count)
-        print(following_count)
+            # update the Instagram object with the new counts and save it to the database
+            instagram.followers = int(follower_count.replace(',', ''))
+            instagram.following = int(following_count.replace(',', ''))
+            instagram.save()
 
-        # update the Instagram object with the new counts and save it to the database
-        instagram.followers = int(follower_count.replace(',', ''))
-        instagram.following = int(following_count.replace(',', ''))
-        instagram.save()
-
-        print("Done+++++++++==============================>")
-        # close the Selenium browser window
-        driver.quit()
+            print("Done==============================>")
+        finally:
+            # close the Selenium browser window
+            driver.quit()

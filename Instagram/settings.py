@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'Instagram.wsgi.application'
 
 import dj_database_url
 
-# DATABASE_URL = "postgresql://postgres:CUAwRA6TpOUSRRtMPvcC@containers-us-west-41.railway.app:7018/railway"
+DATABASE_URL = "postgresql://postgres:CUAwRA6TpOUSRRtMPvcC@containers-us-west-41.railway.app:7018/railway"
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
@@ -181,23 +181,36 @@ LOGIN_REDIRECT_URL = 'home_page'
 LOGOUT_URL = 'logout/'
 LOGOUT_REDIRECT_URL = '/'
 
+CELERY_IMPORTS = ('users.tasks',)
 
 from datetime import timedelta
+from celery.schedules import crontab
 
-# CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-# result_backend = os.environ.get('CELERY_RESULT_BACKENDL')
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+result_backend = os.environ.get('CELERY_RESULT_BACKEND')
 # CELERY_BEAT_SCHEDULE = {
 #     'update_instagram_stats': {
 #         'task': 'users.tasks.update_instagram_stats',
-#         'schedule': timedelta(minutes=2),
+#         'schedule': timedelta(minutes=1),
 #     },
 # }
 
-CELERY_BROKER_URL = 'amqp://localhost:5672'
-result_backend = 'celery_amqp_backend.AMQPBackend://'
+# CELERY_BROKER_URL = 'amqp://rabbitmq:5672//'
+# CELERY_TIMEZONE = 'UTC'
+CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BEAT_SCHEDULE = {
     'update_instagram_stats': {
         'task': 'users.tasks.update_instagram_stats',
-        'schedule': timedelta(minutes=2),
+        'schedule': timedelta(minutes=3),
     },
 }
+
+# CELERY_BROKER_URL = 'amqp://localhost:5672'
+# result_backend = 'celery_amqp_backend.AMQPBackend://'
+# CELERY_BEAT_SCHEDULE = {
+#     'update_instagram_stats': {
+#         'task': 'users.tasks.update_instagram_stats',
+#         'schedule': timedelta(minutes=1),
+#     },
+# }

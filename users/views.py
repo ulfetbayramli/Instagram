@@ -89,9 +89,10 @@ def account_list(request):
             # log in to the account using Selenium
             url = "https://www.instagram.com/accounts/login/" 
             option = Options() #newly added 
-            option.headless = True #newly added 
-            # option.add_argument("window-size=1600x900")
-            driver = webdriver.Chrome(options=option)
+            option.headless = True #newly added
+            option.add_argument("--no-sandbox")
+            option.add_argument("--disable-dev-shm-usage")
+            driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=option)
             driver.get(url)
             username = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME, 'username')))
             username.send_keys(instagram.username)
