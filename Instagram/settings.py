@@ -186,15 +186,16 @@ CELERY_IMPORTS = ('users.tasks',)
 from datetime import timedelta
 from celery.schedules import crontab
 
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-result_backend = os.environ.get('CELERY_RESULT_BACKEND')
+# CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+# result_backend = os.environ.get('CELERY_RESULT_BACKEND')
 # CELERY_BEAT_SCHEDULE = {
 #     'update_instagram_stats': {
 #         'task': 'users.tasks.update_instagram_stats',
 #         'schedule': timedelta(minutes=1),
 #     },
 # }
-
+CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
+result_backend = 'rpc://'
 # CELERY_BROKER_URL = 'amqp://rabbitmq:5672//'
 # CELERY_TIMEZONE = 'UTC'
 CELERY_TASK_TRACK_STARTED = True
