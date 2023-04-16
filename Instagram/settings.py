@@ -87,16 +87,16 @@ WSGI_APPLICATION = 'Instagram.wsgi.application'
 
 import dj_database_url
 
-DATABASE_URL = "postgresql://postgres:CUAwRA6TpOUSRRtMPvcC@containers-us-west-41.railway.app:7018/railway"
+DATABASE_URL = "postgresql://postgres:MoWCEKvckq3RdVwsnsa2@containers-us-west-131.railway.app:7435/railway"
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'CUAwRA6TpOUSRRtMPvcC',
-        'HOST': 'containers-us-west-41.railway.app',
-        'PORT': '7018',
+        'PASSWORD': 'MoWCEKvckq3RdVwsnsa2',
+        'HOST': 'containers-us-west-131.railway.app',
+        'PORT': '7435',
     }
 }
 
