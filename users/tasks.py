@@ -2,16 +2,24 @@ from __future__ import absolute_import,unicode_literals
 from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-# from templated_email import send_templated_mail
-
 from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.urls import reverse_lazy
 from users.models import User
-
 from users.tokens import account_activation_token
 from django.conf import settings
+from celery import shared_task
+from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService 
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from .models import Instagram
+import time
+
 
 
 def send_confirmation_mail(user):
@@ -23,36 +31,9 @@ def send_confirmation_mail(user):
     message.content_subtype = 'html'
     message.send()
 
-
-# from celery import shared_task
-
-# @shared_task()
-# def add():
-#     print("88888888888888888888888")
-#     return 5+6
-
-
-
-import time
-from celery import shared_task
-from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-import time
-from .models import Instagram
-from selenium.webdriver.chrome.service import Service as ChromeService 
-from webdriver_manager.chrome import ChromeDriverManager
-
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 @shared_task
 def update_instagram_stats():
-    # retrieve all Instagram objects
     instagrams = Instagram.objects.all()
-    print("00000000000000000000000000")
-
-    # iterate through Instagram objects and update stats
     for instagram in instagrams:
         # log in to the account using Selenium
         url = "https://www.instagram.com/accounts/login/"
@@ -60,9 +41,7 @@ def update_instagram_stats():
         option.headless = True
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
-        print("hhhhhhhhhhhhhhhhhhhhhhh")
         driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=option)
-        print("11111111111111111111111")
         try:
             driver.get(url)
             time.sleep(2)
@@ -74,7 +53,7 @@ def update_instagram_stats():
             time.sleep(3)
             loginbutton = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button')))
             loginbutton.click()
-            time.sleep(20)
+            time.sleep(10)
 
             driver.get('https://www.instagram.com/' + instagram.username)
             time.sleep(10)

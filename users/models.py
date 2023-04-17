@@ -8,7 +8,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
-
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'username']
 
@@ -16,7 +16,6 @@ class User(AbstractUser):
         return self.email  
 
     def save(self, *args, **kwargs):
-        # Set username to email if it's blank
         if not self.username:
             self.username = self.email
         super().save(*args, **kwargs)

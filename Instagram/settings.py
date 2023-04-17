@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
+from celery.schedules import crontab
+
 
 load_dotenv()
 
@@ -90,7 +93,6 @@ import dj_database_url
 DATABASE_URL = "postgresql://postgres:MoWCEKvckq3RdVwsnsa2@containers-us-west-131.railway.app:7435/railway"
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
@@ -101,18 +103,6 @@ DATABASES = {
 }
 
 
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'Instagram', 
-#         'USER': 'postgres', 
-#         'PASSWORD': '1234',
-#         'HOST': '127.0.0.1', 
-#         'PORT': '5432',
-#     }
-# }
 
 
 # Password validation
@@ -160,10 +150,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 AUTH_USER_MODEL = 'users.User'
-
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -174,8 +161,6 @@ EMAIL_HOST_USER = 'superbecommerce0@gmail.com'
 EMAIL_HOST_PASSWORD = "nehmchlkbafphvly"
 
 
-
-
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home_page'
 LOGOUT_URL = 'logout/'
@@ -183,26 +168,10 @@ LOGOUT_REDIRECT_URL = '/'
 
 CELERY_IMPORTS = ('users.tasks',)
 
-from datetime import timedelta
-from celery.schedules import crontab
 
-# CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-# result_backend = os.environ.get('CELERY_RESULT_BACKEND')
-# CELERY_BEAT_SCHEDULE = {
-#     'update_instagram_stats': {
-#         'task': 'users.tasks.update_instagram_stats',
-#         'schedule': timedelta(minutes=1),
-#     },
-# }
-# CELERY_BROKER_URL = 'amqp://rabbitmq:5672//'
-# CELERY_TIMEZONE = 'UTC'
-# CELERY_TASK_TIME_LIMIT = 30 * 60
+# CELERY_BROKER_URL = 'amqps://cxcarasm:EJ4s950qjUf_JpuI6msXSvR0dt1nBDqs@armadillo.rmq.cloudamqp.com/cxcarasm'
 
-
-
-CELERY_BROKER_URL = 'amqps://cxcarasm:EJ4s950qjUf_JpuI6msXSvR0dt1nBDqs@armadillo.rmq.cloudamqp.com/cxcarasm'
-
-# CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
+CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
 result_backend = 'rpc://'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_BEAT_SCHEDULE = {
@@ -211,12 +180,3 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(minutes=3),
     },
 }
-
-# CELERY_BROKER_URL = 'amqp://localhost:5672'
-# result_backend = 'celery_amqp_backend.AMQPBackend://'
-# CELERY_BEAT_SCHEDULE = {
-#     'update_instagram_stats': {
-#         'task': 'users.tasks.update_instagram_stats',
-#         'schedule': timedelta(minutes=1),
-#     },
-# }

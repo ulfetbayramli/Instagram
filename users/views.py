@@ -49,10 +49,8 @@ class Register(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-        print("valid")
         if form.is_valid():
             user = form.save(commit=False)
-            print("post")
             user.is_active = False
             user.save()
             send_confirmation_mail(user)
@@ -88,8 +86,8 @@ def account_list(request):
 
             # log in to the account using Selenium
             url = "https://www.instagram.com/accounts/login/" 
-            option = Options() #newly added 
-            option.headless = True #newly added
+            option = Options() 
+            option.headless = True
             option.add_argument("--no-sandbox")
             option.add_argument("--disable-dev-shm-usage")
             driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=option)
