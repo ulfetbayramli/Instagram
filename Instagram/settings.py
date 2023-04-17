@@ -194,12 +194,17 @@ from celery.schedules import crontab
 #         'schedule': timedelta(minutes=1),
 #     },
 # }
-CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
-result_backend = 'rpc://'
 # CELERY_BROKER_URL = 'amqp://rabbitmq:5672//'
 # CELERY_TIMEZONE = 'UTC'
-CELERY_TASK_TRACK_STARTED = True
 # CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+
+CELERY_BROKER_URL = 'amqps://cxcarasm:EJ4s950qjUf_JpuI6msXSvR0dt1nBDqs@armadillo.rmq.cloudamqp.com/cxcarasm'
+
+# CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
+result_backend = 'rpc://'
+CELERY_TASK_TRACK_STARTED = True
 CELERY_BEAT_SCHEDULE = {
     'update_instagram_stats': {
         'task': 'users.tasks.update_instagram_stats',
