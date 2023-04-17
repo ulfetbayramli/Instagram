@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('INSTAGRAM_SECRET_KEY', 'sometext')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =os.environ.get('INSTAGRAM_DEBUG')
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["http://ulfetba.pythonanywhere.com/"]
 
 
 # Application definition
