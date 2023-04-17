@@ -16,28 +16,6 @@ RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`cu
 RUN unzip /tmp/chromedriver.zip chromedriver -d /code
 
 # set display port to avoid crash
-# Use the latest official RabbitMQ image
-FROM rabbitmq:3.9.5
-
-# Set the username and password for RabbitMQ
-ENV RABBITMQ_DEFAULT_USER=rabbitmq
-ENV RABBITMQ_DEFAULT_PASS=rabbitmq
-
-# Expose the RabbitMQ ports
-EXPOSE 5672 15672
-
-# Copy the RabbitMQ configuration file
-COPY rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
-
-# Set the configuration for RabbitMQ
-RUN rabbitmq-plugins enable --offline rabbitmq_management && \
-    rabbitmq-plugins enable --offline rabbitmq_mqtt && \
-    rabbitmq-plugins enable --offline rabbitmq_web_stomp && \
-    rabbitmq-plugins enable --offline rabbitmq_stomp && \
-    rabbitmq-plugins enable --offline rabbitmq_consistent_hash_exchange
-
-# Start RabbitMQ
-
 ENV DISPLAY=:99
 
 # upgrade pip
@@ -49,5 +27,5 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
-CMD ["sh", "-c", "rabbitmq-server && python manage.py makemigrations && python manage.py migrate && celery -A Instagram worker -l info && celery -A Instagram beat -l info"]
 
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && celery -A Instagram worker -l info && celery -A Instagram beat -l info"]

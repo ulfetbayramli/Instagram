@@ -173,8 +173,6 @@ CELERY_IMPORTS = ('users.tasks',)
 
 CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
 result_backend = 'rpc://'
-
-app = Celery('myapp', broker=CELERY_BROKER_URL, backend=result_backend)
 CELERY_TASK_TRACK_STARTED = True
 CELERY_BEAT_SCHEDULE = {
     'update_instagram_stats': {
