@@ -3,8 +3,8 @@ services:
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
+    # volumes:
+    #   - .:/code
     ports:
       - "8000:8000"
     depends_on:
@@ -28,16 +28,16 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: rabbitmq
       RABBITMQ_DEFAULT_PASS: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+    # ports:
+    #   - "5672:5672"
+    #   - "15672:15672"
     networks:
       - emin  
   celery:
     build: .
     command: celery -A Instagram worker -l info
-    volumes:
-      - .:/code
+    # volumes:
+    #   - .:/code
     depends_on:
       # - db
       - rabbitmq
@@ -50,8 +50,8 @@ services:
       context: .
       dockerfile: Dockerfile
     command: celery -A Instagram beat -l info
-    volumes:
-      - .:/code
+    # volumes:
+    #   - .:/code
     depends_on:
       # - db
       - rabbitmq
