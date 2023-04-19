@@ -103,8 +103,8 @@ def account_list(request):
             time.sleep(15)
             driver.get('https://www.instagram.com/' + instagram.username)
             time.sleep(10)
-            follower_count = driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/followers/"] span').get_attribute('title')
             following_count= driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/following/"] span').text
+            follower_count = driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/followers/"] span').get_attribute('title')
 
             # update the Instagram object with the new counts and save it to the database
             instagram.followers = int(follower_count.replace(',', ''))
