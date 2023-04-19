@@ -87,7 +87,7 @@ def account_list(request):
             # log in to the account using Selenium
             url = "https://www.instagram.com/accounts/login/" 
             option = Options() 
-            # option.headless = True
+            option.headless = True
             option.add_argument("--no-sandbox")
             option.add_argument("--disable-dev-shm-usage")
             driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=option)
