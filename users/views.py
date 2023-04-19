@@ -102,7 +102,7 @@ def account_list(request):
             loginbutton.click()
             time.sleep(10)
             driver.get('https://www.instagram.com/' + instagram.username)
-            time.sleep(5)
+            time.sleep(10)
             follower_count = driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/followers/"] span').get_attribute('title')
             following_count= driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/following/"] span').text
 
