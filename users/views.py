@@ -100,7 +100,7 @@ def account_list(request):
             time.sleep(3)
             loginbutton = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button')))
             loginbutton.click()
-            time.sleep(10)
+            time.sleep(15)
             driver.get('https://www.instagram.com/' + instagram.username)
             time.sleep(10)
             follower_count = driver.find_element(By.CSS_SELECTOR, 'a[href="/' + instagram.username + '/followers/"] span').get_attribute('title')
